@@ -1,0 +1,28 @@
+import openai
+
+chave_api = "sk-proj-omRN9CW6MiYqIrFj0MpgT3BlbkFJuEmDAicELFVINyLwjakt"
+
+def enviar_mensagem(mensagem, lista_mensagens=[]):
+    lista_mensagens.append(
+{"role":"user", "content": mensagem}
+    )
+
+    resposta = openai.ChatCompletion.create(
+model = "gpt 3.5 turbo",
+message=lista_mensagens,
+    )
+
+    resposta_texto = resposta["choices"][0]["message"]["content"]
+
+    return resposta_texto
+
+lista_mensagens = []
+while True:
+    texto = input("Qual sua dúvida?")
+    
+    if texto == "sair":
+        break
+    else:
+        resposta = enviar_mensagem(texto, lista_mensagens)
+        lista_mensagens.append({"role":"assistant", "content": resposta})
+        print("UmbandaChatBot", resposta)
